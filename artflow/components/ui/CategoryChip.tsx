@@ -9,12 +9,13 @@ type Props = {
   icon: keyof typeof MaterialCommunityIcons.glyphMap;
   color: string;
   active?: boolean;
+  onPress?: () => void;
 };
 
-export function CategoryChip({ label, icon, color, active }: Props) {
+export function CategoryChip({ label, icon, color, active, onPress }: Props) {
   if (active) {
     return (
-      <TouchableOpacity activeOpacity={0.85}>
+      <TouchableOpacity activeOpacity={0.85} onPress={onPress}>
         <LinearGradient
           colors={[COLORS.purple, COLORS.coral]}
           start={{ x: 0, y: 0 }}
@@ -28,7 +29,7 @@ export function CategoryChip({ label, icon, color, active }: Props) {
   }
 
   return (
-    <TouchableOpacity activeOpacity={0.85} style={styles.chip}>
+    <TouchableOpacity activeOpacity={0.85} style={styles.chip} onPress={onPress}>
       <MaterialCommunityIcons name={icon} size={22} color={color} />
       <Text style={styles.text}>{label}</Text>
     </TouchableOpacity>

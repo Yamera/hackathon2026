@@ -3,24 +3,39 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { COLORS } from '@/constants/colors';
 
-export function MapPreviewCard() {
+type Props = {
+  title: string;
+  category: string;
+  distance: string;
+  time: string;
+  image: string;
+  liveColor?: string;
+  containerStyle?: object;
+};
+
+export function MapPreviewCard({
+  title,
+  category,
+  distance,
+  time,
+  image,
+  liveColor = COLORS.turquoise,
+  containerStyle,
+}: Props) {
   return (
-    <View style={styles.card}>
-      <Image
-        source={{ uri: 'https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?q=80&w=400' }}
-        style={styles.image}
-      />
+    <View style={[styles.card, containerStyle]}>
+      <Image source={{ uri: image }} style={styles.image} />
       <View style={styles.content}>
         <View style={styles.titleRow}>
-          <Text style={styles.title}>Pianiste en live</Text>
-          <View style={styles.liveDot} />
+          <Text style={styles.title}>{title}</Text>
+          <View style={[styles.liveDot, { backgroundColor: liveColor }]} />
         </View>
-        <Text style={styles.category}>Performance live</Text>
+        <Text style={styles.category}>{category}</Text>
         <View style={styles.locationRow}>
           <Feather name="map-pin" size={14} color={COLORS.gray} />
-          <Text style={styles.distance}>200 m de toi</Text>
+          <Text style={styles.distance}>{distance}</Text>
         </View>
-        <Text style={styles.time}>Dans 15 min</Text>
+        <Text style={styles.time}>{time}</Text>
       </View>
     </View>
   );
@@ -30,13 +45,13 @@ const styles = StyleSheet.create({
   card: {
     position: 'absolute',
     left: 95,
-    bottom: 38,
-    width: 250,
-    height: 106,
+    bottom: 78,
+    width: 290,
+    minHeight: 118,
     borderRadius: 24,
     backgroundColor: COLORS.white,
     flexDirection: 'row',
-    padding: 12,
+    padding: 14,
     shadowColor: COLORS.dark,
     shadowOpacity: 0.12,
     shadowOffset: { width: 0, height: 12 },
@@ -44,8 +59,8 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   image: {
-    width: 78,
-    height: 82,
+    width: 84,
+    height: 90,
     borderRadius: 16,
   },
   content: {
@@ -62,6 +77,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: COLORS.dark,
     flex: 1,
+    flexShrink: 1,
   },
   liveDot: {
     width: 9,
@@ -74,6 +90,7 @@ const styles = StyleSheet.create({
     color: COLORS.purple,
     fontSize: 15,
     fontWeight: '700',
+    flexShrink: 1,
   },
   locationRow: {
     flexDirection: 'row',
@@ -85,6 +102,7 @@ const styles = StyleSheet.create({
     color: COLORS.gray,
     fontSize: 14,
     fontWeight: '600',
+    flexShrink: 1,
   },
   time: {
     marginTop: 4,

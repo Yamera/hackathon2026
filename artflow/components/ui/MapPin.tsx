@@ -6,13 +6,20 @@ import { COLORS } from '@/constants/colors';
 type Props = {
   icon: keyof typeof MaterialCommunityIcons.glyphMap;
   color: string;
-  top: number;
-  left: number;
+  top?: number;
+  left?: number;
+  absolute?: boolean;
 };
 
-export function MapPin({ icon, color, top, left }: Props) {
+export function MapPin({ icon, color, top, left, absolute }: Props) {
+  const isAbsolute = absolute ?? (typeof top === 'number' || typeof left === 'number');
   return (
-    <View style={[styles.wrapper, { top, left }]}>
+    <View
+      style={[
+        styles.wrapper,
+        isAbsolute ? { position: 'absolute', top, left } : null,
+      ]}
+    >
       <View style={[styles.pin, { backgroundColor: color, shadowColor: color }]}>
         <MaterialCommunityIcons name={icon} size={25} color={COLORS.white} />
       </View>
@@ -23,7 +30,6 @@ export function MapPin({ icon, color, top, left }: Props) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    position: 'absolute',
     alignItems: 'center',
   },
   pin: {

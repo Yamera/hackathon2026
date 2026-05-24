@@ -6,10 +6,14 @@ import { COLORS } from '@/constants/colors';
 export function SearchInput() {
   return (
     <View style={styles.container}>
-      <Feather name="search" size={22} color="#000000" />
+      <View style={styles.iconBox}>
+        <Feather name="search" size={19} color={COLORS.purple} />
+      </View>
       <TextInput
-        placeholder="Que cherches-tu ?"
-        placeholderTextColor="#000000"
+        accessibilityLabel="Recherche"
+        placeholder="Artiste, événement ou catégorie"
+        placeholderTextColor={COLORS.gray}
+        returnKeyType="search"
         style={styles.input}
       />
     </View>
@@ -18,19 +22,29 @@ export function SearchInput() {
 
 const styles = StyleSheet.create({
   container: {
-    height: 38,
-    borderRadius: 8,
-    backgroundColor: '#F0EBEB',
+    height: 56,
+    borderRadius: 18,
+    backgroundColor: COLORS.white,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    marginHorizontal: 10,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(31,41,55,0.04)',
+  },
+  iconBox: {
+    width: 37,
+    height: 37,
+    borderRadius: 12,
+    backgroundColor: 'rgba(124,92,255,0.11)',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   input: {
     flex: 1,
     marginLeft: 12,
-    fontSize: 16,
-    color: '#000000',
+    fontSize: 14,
+    fontWeight: '600',
+    color: COLORS.dark,
     paddingVertical: 0,
   },
 });

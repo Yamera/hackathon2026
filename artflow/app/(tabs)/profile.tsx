@@ -10,15 +10,17 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather, Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS } from '@/constants/colors';
-import { portfolioImages, profileTags, upcomingEvents } from '@/constants/profile-data';
+import { portfolioImages, upcomingEvents } from '@/constants/profile-data';
 import { ProfileStat } from '@/components/ui/ProfileStat';
-import { ProfileTag } from '@/components/ui/ProfileTag';
 import { UpcomingEventCard } from '@/components/ui/UpcomingEventCard';
 import { PortfolioImage } from '@/components/ui/PortfolioImage';
 
 export default function ProfileScreen() {
+  const router = useRouter();
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
@@ -28,8 +30,11 @@ export default function ProfileScreen() {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.headerActions}>
-          <TouchableOpacity style={styles.circleButton}>
-            <Feather name="more-horizontal" size={25} color={COLORS.dark} />
+          <TouchableOpacity
+            style={styles.circleButton}
+            onPress={() => router.push('/settings')}
+          >
+            <Feather name="settings" size={24} color={COLORS.dark} />
           </TouchableOpacity>
         </View>
 
@@ -69,46 +74,10 @@ export default function ProfileScreen() {
             <ProfileStat value="15" label="Collabs" icon="handshake" color={COLORS.turquoise} />
           </View>
 
-          <View style={styles.buttonsRow}>
-            <TouchableOpacity activeOpacity={0.85}>
-              <LinearGradient
-                colors={[COLORS.purple, COLORS.coral]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.primaryButton}
-              >
-                <Feather name="send" size={22} color={COLORS.white} />
-                <Text style={styles.primaryButtonText}>Contacter</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-
-            <TouchableOpacity activeOpacity={0.85} style={styles.secondaryButton}>
-              <Feather name="bookmark" size={24} color={COLORS.dark} />
-              <Text style={styles.secondaryButtonText}>Suivre</Text>
-            </TouchableOpacity>
-          </View>
         </View>
-
-        <View style={styles.aboutCard}>
-          <Text style={styles.aboutTitle}>À propos</Text>
-          <Text style={styles.aboutText}>
-            Danseuse contemporaine et chorégraphe basée à Montréal. Maya crée des pièces qui
-            explorent le mouvement, l'émotion et la connexion humaine.
-          </Text>
-        </View>
-
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.tagsRow}
-        >
-          {profileTags.map((tag) => (
-            <ProfileTag key={tag.id} label={tag.label} icon={tag.icon as any} color={tag.color} />
-          ))}
-        </ScrollView>
 
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Événements à venir</Text>
+          <Text style={styles.sectionTitle}>Mes événements</Text>
           <Text style={styles.seeAll}>Voir tout ›</Text>
         </View>
 
@@ -245,79 +214,6 @@ const styles = StyleSheet.create({
   statsRow: {
     marginTop: 24,
     flexDirection: 'row',
-    gap: 12,
-  },
-  buttonsRow: {
-    marginTop: 28,
-    flexDirection: 'row',
-    gap: 18,
-  },
-  primaryButton: {
-    width: 154,
-    height: 62,
-    borderRadius: 31,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
-    shadowColor: COLORS.purple,
-    shadowOpacity: 0.28,
-    shadowOffset: { width: 0, height: 10 },
-    shadowRadius: 18,
-    elevation: 6,
-  },
-  primaryButtonText: {
-    color: COLORS.white,
-    fontSize: 18,
-    fontWeight: '900',
-  },
-  secondaryButton: {
-    width: 142,
-    height: 62,
-    borderRadius: 31,
-    backgroundColor: COLORS.white,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
-    shadowColor: COLORS.dark,
-    shadowOpacity: 0.06,
-    shadowOffset: { width: 0, height: 8 },
-    shadowRadius: 18,
-    elevation: 4,
-  },
-  secondaryButtonText: {
-    color: COLORS.dark,
-    fontSize: 18,
-    fontWeight: '900',
-  },
-  aboutCard: {
-    marginHorizontal: 28,
-    marginTop: 22,
-    borderRadius: 26,
-    backgroundColor: COLORS.white,
-    padding: 20,
-    shadowColor: COLORS.dark,
-    shadowOpacity: 0.05,
-    shadowOffset: { width: 0, height: 8 },
-    shadowRadius: 18,
-    elevation: 4,
-  },
-  aboutTitle: {
-    fontSize: 23,
-    fontWeight: '900',
-    color: COLORS.dark,
-    marginBottom: 8,
-  },
-  aboutText: {
-    fontSize: 16,
-    lineHeight: 22,
-    fontWeight: '500',
-    color: COLORS.dark,
-  },
-  tagsRow: {
-    paddingHorizontal: 28,
-    paddingTop: 20,
     gap: 12,
   },
   sectionHeader: {

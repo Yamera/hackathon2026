@@ -6,7 +6,7 @@
     "scheme": "artflow",
     "orientation": "portrait",
     "icon": "./assets/images/logo.png",
-    "userInterfaceStyle": "dark",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/logo.png",
       "resizeMode": "contain",

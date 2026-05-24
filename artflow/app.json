@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "ArtFlow",
-    "slug": "artflow",
+    "name": "ArtConnect",
+    "slug": "ArtConnect",
     "version": "1.0.0",
     "scheme": "artflow",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo.png",
     "userInterfaceStyle": "dark",
     "splash": {
-      "image": "./assets/images/splash-icon.png",
+      "image": "./assets/images/logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#080810"
+      "backgroundColor": "#FFF8EF"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -24,7 +24,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundColor": "#080810"
+        "backgroundColor": "#7C5CFF"
       },
       "package": "com.artflow.app",
       "permissions": [

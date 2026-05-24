@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "ArtFlow",
+    "slug": "artflow",
+    "version": "1.0.0",
+    "scheme": "artflow",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#080810"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.artflow.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "ArtFlow uses your location to show nearby artists and events.",
+        "NSLocationAlwaysUsageDescription": "ArtFlow uses your location to show nearby artists and events."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundColor": "#080810"
+      },
+      "package": "com.artflow.app",
+      "permissions": [
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "ArtFlow uses your location to discover artists and events near you."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

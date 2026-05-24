@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Stack } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { StyleSheet } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import {
   useFonts,
   Inter_400Regular,
@@ -32,12 +32,19 @@ export default function RootLayout() {
     SplashScreen.hideAsync();
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) return null;
+  if (!fontsLoaded) {
+    return (
+      <View style={styles.splash}>
+        <Image source={require('../assets/images/logo.png')} style={styles.splashLogo} resizeMode="contain" />
+        <Text style={styles.splashTitle}>ArtConnect</Text>
+      </View>
+    );
+  }
 
   return (
     <GestureHandlerRootView style={styles.root}>
       <SafeAreaProvider>
-        <StatusBar style="light" backgroundColor={Colors.bg} />
+        <StatusBar style="dark" backgroundColor={Colors.bg} />
         <Stack
           screenOptions={{
             headerShown: false,
@@ -84,5 +91,22 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: Colors.bg,
+  },
+  splash: {
+    flex: 1,
+    backgroundColor: Colors.bg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 20,
+  },
+  splashLogo: {
+    width: 120,
+    height: 120,
+  },
+  splashTitle: {
+    fontSize: 32,
+    fontWeight: '900',
+    color: '#7C5CFF',
+    letterSpacing: -0.5,
   },
 });

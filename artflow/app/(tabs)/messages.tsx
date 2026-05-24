@@ -15,6 +15,7 @@ import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Svg, { Defs, RadialGradient, Stop, Rect } from 'react-native-svg';
 import { COLORS } from '@/constants/colors';
 import { contacts, conversations } from '@/constants/messages-data';
 import { SearchBar } from '@/components/ui/SearchBar';
@@ -93,6 +94,30 @@ export default function MessagesScreen() {
       <StatusBar barStyle="dark-content" />
 
       <View style={styles.screen}>
+        <Svg style={StyleSheet.absoluteFill} pointerEvents="none">
+          <Defs>
+            <RadialGradient id="tl" cx="0%" cy="0%" r="40%" fx="0%" fy="0%">
+              <Stop offset="0%" stopColor="rgba(255,209,102,0.75)" />
+              <Stop offset="100%" stopColor="transparent" />
+            </RadialGradient>
+            <RadialGradient id="tr" cx="100%" cy="0%" r="38%" fx="100%" fy="0%">
+              <Stop offset="0%" stopColor="rgba(78,205,196,0.45)" />
+              <Stop offset="100%" stopColor="transparent" />
+            </RadialGradient>
+            <RadialGradient id="bl" cx="0%" cy="100%" r="38%" fx="0%" fy="100%">
+              <Stop offset="0%" stopColor="rgba(255,122,89,0.35)" />
+              <Stop offset="100%" stopColor="transparent" />
+            </RadialGradient>
+            <RadialGradient id="br" cx="100%" cy="100%" r="40%" fx="100%" fy="100%">
+              <Stop offset="0%" stopColor="rgba(124,92,255,0.35)" />
+              <Stop offset="100%" stopColor="transparent" />
+            </RadialGradient>
+          </Defs>
+          <Rect x="0" y="0" width="100%" height="100%" fill="url(#tl)" />
+          <Rect x="0" y="0" width="100%" height="100%" fill="url(#tr)" />
+          <Rect x="0" y="0" width="100%" height="100%" fill="url(#bl)" />
+          <Rect x="0" y="0" width="100%" height="100%" fill="url(#br)" />
+        </Svg>
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
           <View style={styles.header}>
             <View>

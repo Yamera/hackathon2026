@@ -1,6 +1,9 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { initializeAuth, getAuth, type Auth } from 'firebase/auth';
+// @ts-ignore — getReactNativePersistence exists at runtime in Firebase 12 but is missing from typedefs
+import { getReactNativePersistence } from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCTyvJis6iLutxRZlN9HUrhEq31wrXcK58',
@@ -14,4 +17,12 @@ const firebaseConfig = {
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 export const db = getFirestore(app);
-export const auth = getAuth(app);
+let auth: Auth;
+try {
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+  });
+} catch {
+  auth = getAuth(app);
+}
+export { auth };

@@ -11,20 +11,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Feather } from '@expo/vector-icons';
 import { COLORS } from '@/constants/colors';
-import { ChatMessage, ensureSignedIn, sendMessage, subscribeToMessages } from '@/lib/chat';
-
-const NAME_KEY = '@artflow_username';
+import { ChatMessage, NAME_KEY, formatMsgTime, getLocalMockMessages } from '@/lib/chat';
 
 export default function ChatScreen() {
-  const { id, name } = useLocalSearchParams<{ id: string; name: string }>();
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const { id, name, image } = useLocalSearchParams<{ id: string; name: string; image?: string }>();
+  const [messages, setMessages] = useState<ChatMessage[]>(() => getLocalMockMessages(id as string));
   const [text, setText] = useState('');
-  const [myUid, setMyUid] = useState<string | null>(null);
   const [myName, setMyName] = useState('');
   const [showNameModal, setShowNameModal] = useState(false);
   const [pendingName, setPendingName] = useState('');
@@ -32,25 +30,22 @@ export default function ChatScreen() {
   const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
-    ensureSignedIn().then(setMyUid);
     AsyncStorage.getItem(NAME_KEY).then((n) => { if (n) setMyName(n); });
   }, []);
-
-  useEffect(() => {
-    if (!id) return;
-    return subscribeToMessages(id, setMessages);
-  }, [id]);
 
   const doSend = useCallback(async (nameToUse: string) => {
     if (!text.trim()) return;
     setSending(true);
-    try {
-      await sendMessage(id as string, text.trim(), nameToUse);
-      setText('');
-    } finally {
-      setSending(false);
-    }
-  }, [text, id]);
+    setMessages(prev => [...prev, {
+      id: `sent_${Date.now()}`,
+      text: text.trim(),
+      senderId: '__me__',
+      senderName: nameToUse,
+      createdAt: new Date(),
+    }]);
+    setText('');
+    setSending(false);
+  }, [text]);
 
   const handleSend = useCallback(() => {
     if (!myName) { setShowNameModal(true); return; }
@@ -67,7 +62,7 @@ export default function ChatScreen() {
   }, [pendingName, doSend]);
 
   const renderMessage = ({ item }: { item: ChatMessage }) => {
-    const isMe = item.senderId === myUid;
+    const isMe = item.senderId === '__me__';
     return (
       <View style={[styles.msgRow, isMe && styles.msgRowMe]}>
         {!isMe && (
@@ -78,6 +73,7 @@ export default function ChatScreen() {
         <View style={[styles.bubble, isMe ? styles.bubbleMe : styles.bubbleThem]}>
           {!isMe && <Text style={styles.senderName}>{item.senderName}</Text>}
           <Text style={[styles.msgText, isMe && styles.msgTextMe]}>{item.text}</Text>
+          <Text style={[styles.msgTime, isMe && styles.msgTimeMe]}>{formatMsgTime(item.createdAt)}</Text>
         </View>
       </View>
     );
@@ -92,9 +88,13 @@ export default function ChatScreen() {
           <Feather name="chevron-left" size={28} color={COLORS.dark} />
         </TouchableOpacity>
         <View style={styles.headerInfo}>
-          <View style={styles.headerAvatar}>
-            <Text style={styles.headerAvatarText}>{(name as string)?.[0]?.toUpperCase() ?? '?'}</Text>
-          </View>
+          {image ? (
+            <Image source={{ uri: image }} style={styles.headerAvatarImg} />
+          ) : (
+            <View style={styles.headerAvatar}>
+              <Text style={styles.headerAvatarText}>{(name as string)?.[0]?.toUpperCase() ?? '?'}</Text>
+            </View>
+          )}
           <View>
             <Text style={styles.headerName}>{name ?? 'Chat'}</Text>
             <Text style={styles.headerOnline}>● En ligne</Text>
@@ -205,6 +205,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  headerAvatarImg: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+  },
   headerAvatarText: {
     color: COLORS.white,
     fontWeight: '900',
@@ -287,6 +292,16 @@ const styles = StyleSheet.create({
   },
   msgTextMe: {
     color: COLORS.white,
+  },
+  msgTime: {
+    fontSize: 11,
+    fontWeight: '500',
+    color: COLORS.gray,
+    marginTop: 4,
+    alignSelf: 'flex-end',
+  },
+  msgTimeMe: {
+    color: 'rgba(255,255,255,0.6)',
   },
   emptyText: {
     textAlign: 'center',

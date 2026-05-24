@@ -84,4 +84,18 @@ export const conversations = [
   },
 ];
 
+export const contacts = [
+  { id: '1',  name: 'Maya Ben',     image: 'https://images.unsplash.com/photo-1518834107812-67b0b7c58434?q=80&w=400' },
+  { id: '2',  name: 'Thomas G.',    image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?q=80&w=400' },
+  { id: '3',  name: 'Léa Martin',   image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400' },
+  { id: '4',  name: 'Studio 303',   image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400' },
+  { id: '5',  name: 'Art Collectif', image: null },
+  { id: '6',  name: 'DJ Snake',     image: 'https://images.unsplash.com/photo-1598387846148-47e82ee120cc?q=80&w=400' },
+  { id: null, name: 'Karim Beat',   image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=400' },
+  { id: null, name: 'Sofia Danse',  image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=400' },
+  { id: null, name: 'Zara Art',     image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=400' },
+  { id: null, name: 'Nico Flow',    image: 'https://images.unsplash.com/photo-1463453091185-61582044d556?q=80&w=400' },
+  { id: null, name: 'Chaba Warda',  image: 'https://images.unsplash.com/photo-1488716820095-cbe80883c496?q=80&w=400' },
+] as const;
+
 export const storyGradient = [COLORS.purple, COLORS.coral] as const;

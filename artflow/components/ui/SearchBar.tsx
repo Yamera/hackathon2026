@@ -3,7 +3,12 @@ import { StyleSheet, TextInput, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { COLORS } from '@/constants/colors';
 
-export function SearchBar() {
+type Props = {
+  value?: string;
+  onChangeText?: (text: string) => void;
+};
+
+export function SearchBar({ value, onChangeText }: Props) {
   return (
     <View style={styles.wrapper}>
       <View style={styles.searchBox}>
@@ -12,10 +17,9 @@ export function SearchBar() {
           placeholder="Rechercher une conversation..."
           placeholderTextColor={COLORS.gray}
           style={styles.input}
+          value={value}
+          onChangeText={onChangeText}
         />
-      </View>
-      <View style={styles.filterButton}>
-        <Feather name="sliders" size={28} color="#000000" />
       </View>
     </View>
   );
@@ -49,18 +53,5 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '500',
     color: COLORS.dark,
-  },
-  filterButton: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: COLORS.white,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: COLORS.dark,
-    shadowOpacity: 0.06,
-    shadowOffset: { width: 0, height: 8 },
-    shadowRadius: 18,
-    elevation: 4,
   },
 });

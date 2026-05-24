@@ -15,8 +15,8 @@ import { COLORS } from '@/constants/colors';
 import { categories, mapPins, nearbyEvents } from '@/constants/map-data';
 import { HeaderActionButton } from '@/components/ui/HeaderActionButton';
 import { CategoryChip } from '@/components/ui/CategoryChip';
-import { MapPin } from '@/components/map/MapPin';
-import { MapPreviewCard } from '@/components/map/MapPreviewCard';
+import { MapPin } from '@/components/ui/MapPin';
+import { MapPreviewCard } from '@/components/ui/MapPreviewCard';
 import { NearbyEventCard } from '@/components/ui/NearbyEventCard';
 
 export default function MapScreen() {

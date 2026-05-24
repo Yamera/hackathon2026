@@ -14,13 +14,14 @@ type Props = {
   active?: boolean;
   online?: boolean;
   verified?: boolean;
+  onPress?: () => void;
 };
 
 export function ConversationCard({
-  name, message, time, image, initials, unread, active, online, verified,
+  name, message, time, image, initials, unread, active, online, verified, onPress,
 }: Props) {
   return (
-    <TouchableOpacity activeOpacity={0.88}>
+    <TouchableOpacity activeOpacity={0.88} onPress={onPress}>
       <View style={[styles.card, active && styles.activeCard]}>
         <View>
           {image ? (

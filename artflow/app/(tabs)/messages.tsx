@@ -3,6 +3,7 @@ import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import { COLORS } from '@/constants/colors';
 import { conversations, stories } from '@/constants/messages-data';
 import { ChatStory } from '@/components/ui/ChatStory';
@@ -60,6 +61,7 @@ export default function MessagesScreen() {
                 active={conv.active}
                 online={conv.online}
                 verified={conv.verified}
+                onPress={() => router.push({ pathname: '/chat/[id]', params: { id: conv.id, name: conv.name } })}
               />
             ))}
           </View>

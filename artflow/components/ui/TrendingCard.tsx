@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { COLORS } from '@/constants/colors';
 
@@ -14,7 +14,12 @@ type Props = {
 
 export function TrendingCard({ name, subtitle, image, avatar, color, live }: Props) {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+      activeOpacity={0.9}
+      accessibilityRole="button"
+      accessibilityLabel={`Découvrir ${name}`}
+      style={styles.card}
+    >
       <ImageBackground source={{ uri: image }} style={styles.image} imageStyle={styles.imageRadius}>
         <LinearGradient
           colors={['rgba(0,0,0,0.05)', 'rgba(31,41,55,0.75)']}
@@ -36,17 +41,22 @@ export function TrendingCard({ name, subtitle, image, avatar, color, live }: Pro
           <Text numberOfLines={1} style={styles.subtitle}>{subtitle}</Text>
         </View>
       </ImageBackground>
-    </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    width: 154,
-    height: 184,
+    width: 166,
+    height: 194,
     borderRadius: 24,
     overflow: 'hidden',
     backgroundColor: COLORS.softGray,
+    shadowColor: COLORS.dark,
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 10 },
+    shadowRadius: 15,
+    elevation: 3,
   },
   image: {
     flex: 1,

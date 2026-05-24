@@ -31,7 +31,11 @@ export function FeedPostCard({
           </View>
           <Text style={styles.location}>{location} · {time}</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.75}
+          accessibilityRole="button"
+          accessibilityLabel={`Plus d'options pour ${artist}`}
+        >
           <Feather name="more-horizontal" size={24} color={COLORS.gray} />
         </TouchableOpacity>
       </View>
@@ -40,20 +44,41 @@ export function FeedPostCard({
 
       <View style={styles.actions}>
         <View style={styles.leftActions}>
-          <View style={styles.actionItem}>
+          <TouchableOpacity
+            activeOpacity={0.75}
+            accessibilityRole="button"
+            accessibilityLabel={`Aimer la publication de ${artist}`}
+            style={styles.actionItem}
+          >
             <Ionicons name="heart" size={24} color={COLORS.coral} />
             <Text style={styles.actionText}>{likes}</Text>
-          </View>
-          <View style={styles.actionItem}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.75}
+            accessibilityRole="button"
+            accessibilityLabel={`Commenter la publication de ${artist}`}
+            style={styles.actionItem}
+          >
             <Ionicons name="chatbubble" size={22} color={COLORS.purple} />
             <Text style={styles.actionText}>{comments}</Text>
-          </View>
-          <View style={styles.actionItem}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.75}
+            accessibilityRole="button"
+            accessibilityLabel={`Partager la publication de ${artist}`}
+            style={styles.actionItem}
+          >
             <Feather name="share" size={22} color={COLORS.coral} />
             <Text style={styles.actionText}>{shares}</Text>
-          </View>
+          </TouchableOpacity>
         </View>
-        <Feather name="bookmark" size={24} color={COLORS.dark} />
+        <TouchableOpacity
+          activeOpacity={0.75}
+          accessibilityRole="button"
+          accessibilityLabel={`Enregistrer la publication de ${artist}`}
+        >
+          <Feather name="bookmark" size={24} color={COLORS.dark} />
+        </TouchableOpacity>
       </View>
 
       <Text style={styles.caption}>
@@ -74,16 +99,18 @@ export function FeedPostCard({
 
 const styles = StyleSheet.create({
   card: {
-    marginHorizontal: 18,
-    marginBottom: 22,
-    borderRadius: 24,
-    backgroundColor: COLORS.white,
+    marginHorizontal: 20,
+    marginBottom: 18,
+    borderRadius: 26,
+    backgroundColor: 'rgba(255,255,255,0.94)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.94)',
     overflow: 'hidden',
     shadowColor: COLORS.dark,
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.06,
     shadowOffset: { width: 0, height: 10 },
-    shadowRadius: 22,
-    elevation: 5,
+    shadowRadius: 20,
+    elevation: 4,
   },
   header: {
     height: 78,
@@ -119,7 +146,7 @@ const styles = StyleSheet.create({
   },
   postImage: {
     width: '100%',
-    height: 230,
+    height: 238,
   },
   actions: {
     paddingHorizontal: 16,

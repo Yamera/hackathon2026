@@ -1,42 +1,43 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Platform,
-} from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { Feather } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated, {
-  useSharedValue,
+  interpolate,
   useAnimatedStyle,
+  useSharedValue,
   withSpring,
   withTiming,
-  interpolate,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
-import { Colors } from '@/constants/colors';
+import { COLORS } from '@/constants/colors';
 import { FontFamily, FontSize } from '@/constants/typography';
 
-const TAB_CONFIG = [
-  { name: 'index', label: 'Accueil', icon: '◈', activeIcon: '◉' },
-  { name: 'map', label: 'Carte', icon: '⊙', activeIcon: '◉' },
-  { name: 'search', label: 'Recherche', icon: '⊘', activeIcon: '⊗' },
-  { name: 'feed', label: 'Feed', icon: '⊞', activeIcon: '⊟' },
-  { name: 'messages', label: 'Messages', icon: '◇', activeIcon: '◈' },
-  { name: 'profile', label: 'Profil', icon: '◎', activeIcon: '◍' },
-];
+type FeatherName = React.ComponentProps<typeof Feather>['name'];
+type TabConfig = {
+  label: string;
+  icon: FeatherName;
+  activeIcon: FeatherName;
+};
+
+const TAB_CONFIG: Record<string, TabConfig> = {
+  index: { label: 'Accueil', icon: 'home', activeIcon: 'home' },
+  map: { label: 'Carte', icon: 'map-pin', activeIcon: 'map-pin' },
+  search: { label: 'Recherche', icon: 'search', activeIcon: 'search' },
+  messages: { label: 'Messages', icon: 'message-circle', activeIcon: 'message-circle' },
+  profile: { label: 'Profil', icon: 'user', activeIcon: 'user' },
+};
 
 function TabBarButton({
   config,
   isActive,
   onPress,
 }: {
-  config: (typeof TAB_CONFIG)[0];
+  config: TabConfig;
   isActive: boolean;
   onPress: () => void;
 }) {
@@ -44,22 +45,22 @@ function TabBarButton({
   const glow = useSharedValue(isActive ? 1 : 0);
 
   React.useEffect(() => {
-    glow.value = withTiming(isActive ? 1 : 0, { duration: 200 });
-  }, [isActive]);
+    glow.value = withTiming(isActive ? 1 : 0, { duration: 180 });
+  }, [glow, isActive]);
 
   const iconStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
-    opacity: interpolate(glow.value, [0, 1], [0.5, 1]),
+    opacity: interpolate(glow.value, [0, 1], [0.72, 1]),
   }));
 
-  const glowStyle = useAnimatedStyle(() => ({
+  const activeStyle = useAnimatedStyle(() => ({
     opacity: glow.value,
-    transform: [{ scale: interpolate(glow.value, [0, 1], [0.5, 1]) }],
+    transform: [{ scale: interpolate(glow.value, [0, 1], [0.96, 1]) }],
   }));
 
   const handlePress = () => {
-    scale.value = withSpring(0.85, { damping: 10 }, () => {
-      scale.value = withSpring(1, { damping: 10 });
+    scale.value = withSpring(0.9, { damping: 12 }, () => {
+      scale.value = withSpring(1, { damping: 12 });
     });
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     onPress();
@@ -70,34 +71,29 @@ function TabBarButton({
       onPress={handlePress}
       style={styles.tabButton}
       activeOpacity={1}
+      accessibilityRole="tab"
+      accessibilityState={{ selected: isActive }}
+      accessibilityLabel={config.label}
     >
       <View style={styles.tabButtonInner}>
-        {isActive && (
-          <Animated.View style={[styles.activeGlow, glowStyle]}>
+        {isActive ? (
+          <Animated.View style={[styles.activePill, activeStyle]}>
             <LinearGradient
-              colors={[Colors.purpleGlow, 'transparent']}
+              colors={['rgba(124,92,255,0.16)', 'rgba(255,122,89,0.07)']}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
               style={StyleSheet.absoluteFill}
-              start={{ x: 0.5, y: 0 }}
-              end={{ x: 0.5, y: 1 }}
             />
           </Animated.View>
-        )}
-        <Animated.Text
-          style={[
-            styles.tabIcon,
-            { color: isActive ? Colors.purpleLight : Colors.textTertiary },
-            iconStyle,
-          ]}
-        >
-          {isActive ? config.activeIcon : config.icon}
-        </Animated.Text>
-        <Text
-          style={[
-            styles.tabLabel,
-            { color: isActive ? Colors.purpleLight : Colors.textTertiary },
-            isActive && styles.tabLabelActive,
-          ]}
-        >
+        ) : null}
+        <Animated.View style={iconStyle}>
+          <Feather
+            name={isActive ? config.activeIcon : config.icon}
+            size={20}
+            color={isActive ? COLORS.purple : COLORS.gray}
+          />
+        </Animated.View>
+        <Text style={[styles.tabLabel, isActive && styles.tabLabelActive]}>
           {config.label}
         </Text>
       </View>
@@ -110,11 +106,11 @@ function CustomTabBar({ state, navigation }: BottomTabBarProps) {
 
   return (
     <View style={[styles.tabBarContainer, { paddingBottom: insets.bottom }]}>
-      <BlurView intensity={40} tint="dark" style={StyleSheet.absoluteFill} />
+      <BlurView intensity={68} tint="light" style={StyleSheet.absoluteFill} />
       <View style={styles.tabBarOverlay} />
       <View style={styles.tabBar}>
         {state.routes.map((route, index) => {
-          const config = TAB_CONFIG[index];
+          const config = TAB_CONFIG[route.name];
           const isActive = state.index === index;
 
           if (!config) return null;
@@ -151,9 +147,9 @@ export default function TabLayout() {
       <Tabs.Screen name="index" />
       <Tabs.Screen name="map" />
       <Tabs.Screen name="search" />
-      <Tabs.Screen name="feed" />
       <Tabs.Screen name="messages" />
       <Tabs.Screen name="profile" />
+      <Tabs.Screen name="feed" options={{ href: null }} />
     </Tabs>
   );
 }
@@ -165,45 +161,46 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     borderTopWidth: 1,
-    borderTopColor: Colors.glassBorder,
+    borderTopColor: 'rgba(31,41,55,0.07)',
+    overflow: 'hidden',
   },
   tabBarOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(8,8,16,0.85)',
+    backgroundColor: 'rgba(255,248,239,0.88)',
   },
   tabBar: {
     flexDirection: 'row',
-    paddingTop: 10,
-    paddingBottom: Platform.OS === 'android' ? 8 : 4,
+    paddingTop: 9,
+    paddingBottom: Platform.OS === 'android' ? 9 : 5,
   },
   tabButton: {
     flex: 1,
     alignItems: 'center',
   },
   tabButtonInner: {
+    minWidth: 65,
+    paddingHorizontal: 9,
+    paddingVertical: 7,
+    gap: 4,
     alignItems: 'center',
-    gap: 3,
-    paddingVertical: 4,
-    paddingHorizontal: 12,
-    minWidth: 56,
+    justifyContent: 'center',
   },
-  activeGlow: {
+  activePill: {
     position: 'absolute',
-    top: -20,
-    left: -10,
-    right: -10,
-    height: 50,
-    borderRadius: 20,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: 18,
     overflow: 'hidden',
   },
-  tabIcon: {
-    fontSize: 18,
-  },
   tabLabel: {
-    fontSize: FontSize.xs,
+    color: COLORS.gray,
     fontFamily: FontFamily.medium,
+    fontSize: FontSize.xs,
   },
   tabLabelActive: {
+    color: COLORS.purple,
     fontFamily: FontFamily.semibold,
   },
 });

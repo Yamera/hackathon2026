@@ -1,0 +1,15 @@
+{
+  "name": "@artloop/backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Minimal backend utilities and Firebase infrastructure for ArtLoop.",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "check": "node --check src/server.js",
+    "firebase:deploy-rules": "npx firebase-tools deploy --only firestore:rules --project artconnect-2b23a"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -6,9 +6,10 @@ import { COLORS } from '@/constants/colors';
 type Props = {
   type: 'search' | 'filter' | 'bell';
   badge?: number;
+  onPress?: () => void;
 };
 
-export function HeaderActionButton({ type, badge }: Props) {
+export function HeaderActionButton({ type, badge, onPress }: Props) {
   const renderIcon = () => {
     if (type === 'search') return <Feather name="search" size={25} color={COLORS.dark} />;
     if (type === 'filter') return <Feather name="sliders" size={25} color={COLORS.dark} />;
@@ -16,7 +17,7 @@ export function HeaderActionButton({ type, badge }: Props) {
   };
 
   return (
-    <TouchableOpacity activeOpacity={0.8} style={styles.button}>
+    <TouchableOpacity activeOpacity={0.8} style={styles.button} onPress={onPress}>
       {renderIcon()}
       {badge ? (
         <View style={styles.badge}>

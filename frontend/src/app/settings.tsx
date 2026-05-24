@@ -20,10 +20,7 @@ type SettingItem = {
 
 const SETTINGS: SettingItem[] = [
   { id: 'account', label: 'Compte', description: 'Profil, sécurité, mot de passe' },
-  { id: 'add-event', label: 'Ajouter un événement', description: 'Publier un nouvel événement' },
   { id: 'privacy', label: 'Confidentialité', description: 'Visibilité, blocages, permissions' },
-  { id: 'collab', label: 'Créer une collab', description: 'Lancer un projet collaboratif' },
-  { id: 'delete-chat', label: 'Supprimer une conversation', description: 'Gérer vos discussions' },
   { id: 'help', label: 'Aide', description: 'Support, FAQ, contact' },
   { id: 'about', label: 'À propos', description: 'Version, mentions légales' },
 ];
